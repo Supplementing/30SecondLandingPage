@@ -2,8 +2,9 @@
   <v-container fluid class="background w-100 h-100">
     <v-row>
       <v-col cols="12">
-        <v-card-title style="font-size: 25px; margin-top: 10px"
-          >Generate a landing page in 30 seconds!</v-card-title
+        <v-card-title style="font-size: 25px; margin-top: 10px">
+          <v-icon>mdi-file-plus-outline</v-icon> Generate a landing page in 30
+          seconds!</v-card-title
         >
         <v-card-subtitle class="ml-10 mt-5" style="font-size: 18px">
           Simply enter in the info below to preview and then generate a single
@@ -19,6 +20,16 @@
             label="Company Name"
             placeholder="Enter company name"
           ></v-text-field>
+          <!-- <v-file-input
+            @change="getLocalImageUrl"
+            v-model="companyLogo"
+            prepend-inner-icon="mdi-paperclip"
+            prepend-icon=""
+            accept="image/*"
+            label="Company Logo"
+          ></v-file-input>
+
+          <img :src="companyLogoURL" alt="" /> -->
 
           <v-text-field
             v-model="heroTitle"
@@ -73,7 +84,7 @@
               <v-menu
                 v-model="featureMenu"
                 :close-on-content-click="false"
-                location="end"
+                location="start"
               >
                 <template v-slot:activator="{ props }">
                   <v-card
@@ -213,7 +224,7 @@
               <v-menu
                 v-model="menu2"
                 :close-on-content-click="false"
-                location="end"
+                location="start"
               >
                 <template v-slot:activator="{ props }">
                   <v-card
@@ -312,33 +323,46 @@
             class="mt-10"
             @click="generateLandingPage"
             color="success"
-            >Generate Landing Page
-            <v-icon class="ml-3">mdi-star-shooting-outline</v-icon></v-btn
+            >Generate Landing Page <v-icon class="ml-3">mdi-sync</v-icon></v-btn
           >
         </v-container>
+        <v-dialog
+          max-width="50%"
+          transition="dialog-bottom-transition"
+          v-model="showGeneratedHtmlModal"
+        >
+          <v-card class="rounded-lg" color="success">
+            <v-container fluid>
+              <v-alert v-if="generatedHtml" type="success" style="width: 100%">
+                <div slot="title">
+                  Your landing page has been generated. You can preview it, or
+                  download the HTML file.
+                </div>
 
-        <v-alert v-if="generatedHtml" type="success" class="mt-6">
-          <div slot="title">
-            Your landing page has been generated. You can preview it, or
-            download the HTML file.
-          </div>
+                <template v-slot:append>
+                  <v-btn color="primary" @click="previewDialog = true">
+                    <v-icon left>mdi-eye</v-icon>
+                    Preview
+                  </v-btn>
 
-          <template v-slot:append>
-            <v-btn color="primary" @click="previewDialog = true">
-              <v-icon left>mdi-eye</v-icon>
-              Preview
-            </v-btn>
-
-            <v-btn class="ml-5" @click="downloadHtml" color="warning">
-              <v-icon left>mdi-download</v-icon>
-              Download HTML
-            </v-btn>
-          </template>
-        </v-alert>
+                  <v-btn class="ml-5" @click="downloadHtml" color="warning">
+                    <v-icon left>mdi-download</v-icon>
+                    Download HTML
+                  </v-btn>
+                </template>
+              </v-alert></v-container
+            ></v-card
+          >
+        </v-dialog>
 
         <v-dialog v-model="previewDialog" fullscreen>
           <v-card>
-            <v-card-title>Landing Page Preview</v-card-title>
+            <v-card-title style="display: flex; justify-content: space-between"
+              >Landing Page Preview
+              <v-btn color="error" text @click="previewDialog = false"
+                >Close</v-btn
+              ></v-card-title
+            >
             <v-card-text>
               <iframe
                 :srcdoc="generatedHtml"
@@ -346,12 +370,6 @@
                 class="w-100 h-100 preview-iframe"
               ></iframe>
             </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="previewDialog = false"
-                >Close</v-btn
-              >
-            </v-card-actions>
           </v-card>
         </v-dialog>
       </v-col>
@@ -404,6 +422,10 @@
 export default {
   data() {
     return {
+      showGeneratedHtmlModal: false,
+      base64File: null,
+      companyLogoURL: null,
+      companyLogo: null,
       whatsNext: false,
       menu: false,
       menu2: false,
@@ -644,6 +666,29 @@ export default {
     };
   },
   methods: {
+    // Function to convert a file to a base64 string
+    async fileToBase64(file) {
+      var file = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+      });
+      return file;
+    },
+
+    // Function to convert a base64 string back to a file
+    base64ToFile(base64String, filename, mimeType) {
+      const arr = Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
+      const file = new File([arr], filename, { type: mimeType });
+      return file;
+    },
+
+    async getLocalImageUrl() {
+      this.companyLogoURL = URL.createObjectURL(this.companyLogo);
+      this.base64File = await this.fileToBase64(this.companyLogo);
+      console.log("the base 64 file ", this.base64File);
+    },
     addFeature() {
       if (this.newFeature.text.trim() !== "") {
         this.features.push({ ...this.newFeature });
@@ -702,18 +747,23 @@ export default {
               data: {
                 isDarkTheme: ${this.isDarkTheme},
                 drawer: false,
+           
               },
+            
             });
           <\/script>
         </body>
         </html>
       `;
+      this.showGeneratedHtmlModal = true;
     },
     generateHtmlContent() {
       return `
         <v-app :dark="isDarkTheme">
           <v-app-bar app color="primary" elevation="1" dark>
-    <v-toolbar-title>{{ companyName }}</v-toolbar-title>
+    <v-toolbar-title class="white--text">
+
+    ${this.companyName}</v-toolbar-title>
     <v-spacer></v-spacer>
     
     <!-- Desktop menu -->
