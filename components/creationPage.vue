@@ -1,6 +1,24 @@
 <template>
   <v-container fluid class="background w-100 h-100">
     <v-row>
+      <v-row>
+        <v-col cols="12" style="text-align: right">
+          <div class="ma-2">
+            <v-card-subtitle>Enjoying this tool?</v-card-subtitle>
+            <v-btn
+              href="https://buymeacoffee.com/supplementing
+"
+              size="small"
+              rounded
+              variant="tonal"
+              color="secondary"
+            >
+              <v-icon class="mr-3">mdi-coffee-outline</v-icon> Buy Me A
+              Coffee</v-btn
+            >
+          </div>
+        </v-col>
+      </v-row>
       <v-col cols="12">
         <v-card-text style="font-size: 25px; margin-top: 10px">
           <v-icon>mdi-file-plus-outline</v-icon> Generate a landing page in 30
