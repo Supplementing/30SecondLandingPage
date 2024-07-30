@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12">
         <v-card-title style="font-size: 25px; margin-top: 10px"
-          >Generate a business page in 30 seconds!</v-card-title
+          >Generate a landing page in 30 seconds!</v-card-title
         >
         <v-card-subtitle class="ml-10 mt-5" style="font-size: 18px">
           Simply enter in the info below to preview and then generate a single
@@ -356,6 +356,47 @@
         </v-dialog>
       </v-col>
     </v-row>
+    <v-dialog max-width="600px" v-model="whatsNext">
+      <!-- show a card letting the user know theyve downloaded an html file and can either upload it to somewhere to tiiny.host, or they can host it themselves. They can also edit the file as desired if needed -->
+
+      <v-card>
+        <v-toolbar color="primary"
+          ><v-toolbar-title class="white--text"
+            >What's next?
+          </v-toolbar-title></v-toolbar
+        >
+        <v-container>
+          <v-alert type="info" color="success">
+            You've now downloaded a single HTML with Vue.js contained in the
+            file and I'm sure youre wondering whats next? The good news is you
+            have multiple options:</v-alert
+          >
+          <v-card-actions>
+            <ul>
+              <li>
+                If you are totally happy with it and ready to serve it as a
+                site, we recommend a service like
+                <a href="https://tiiny.host">tiiny.host</a> which allows you to
+                simply upload the downloaded file, choose a domain, and you will
+                have a live web page in seconds.
+              </li>
+              <li>
+                Alternatively, if you want have an existing deployment method
+                such as Github pages, cloudflare, etc, then you can continue to
+                upload it as normal using the defined process there.
+              </li>
+              <li>
+                Finally, if you want to make some more changes, the file has a
+                self-contained instance of Vue.js including Vuetify and Material
+                Design Icons, so you can open it in your favorite code editor,
+                make any desired changes, and then upload it using one of the
+                previously listed choices.
+              </li>
+            </ul></v-card-actions
+          >
+        </v-container>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -363,6 +404,7 @@
 export default {
   data() {
     return {
+      whatsNext: false,
       menu: false,
       menu2: false,
       menu3: false,
@@ -810,6 +852,7 @@ export default {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      this.whatsNext = true;
     },
   },
 };
