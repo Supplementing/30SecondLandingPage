@@ -2,9 +2,9 @@
   <v-container fluid class="background w-100 h-100">
     <v-row>
       <v-col cols="12">
-        <v-card-title style="font-size: 25px; margin-top: 10px">
+        <v-card-text style="font-size: 25px; margin-top: 10px">
           <v-icon>mdi-file-plus-outline</v-icon> Generate a landing page in 30
-          seconds!</v-card-title
+          seconds!</v-card-text
         >
         <v-card-subtitle class="ml-10 mt-5" style="font-size: 18px">
           Simply enter in the info below to preview and then generate a single
@@ -53,14 +53,14 @@
         <v-card-title>Features</v-card-title>
         <v-container fluid>
           <v-row>
-            <v-col cols="6">
+            <v-col cols="12" xs="12" sm="12" md="12" lg="6">
               <v-text-field
                 v-model="newFeature.text"
                 label="New Feature"
                 placeholder="Enter feature description"
               ></v-text-field>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="12" xs="12" sm="12" md="12" lg="3">
               <v-select
                 v-model="newFeature.icon"
                 :items="iconOptions"
@@ -80,7 +80,7 @@
                 </template>
               </v-select>
             </v-col>
-            <v-col cols="2">
+            <v-col cols="12" lg="2" xs="12" sm="12" md="12">
               <v-menu
                 v-model="featureMenu"
                 :close-on-content-click="false"
@@ -107,7 +107,7 @@
                 </v-card>
               </v-menu>
             </v-col>
-            <v-col cols="1">
+            <v-col cols="12" xs="12" sm="12" md="12" lg="1">
               <v-btn
                 class="mt-1"
                 block
@@ -125,7 +125,11 @@
             <v-card-subtitle>Items ({{ features.length }}):</v-card-subtitle>
             <v-row class="mt-4"
               ><v-col
-                cols="2"
+                cols="12"
+                md="3"
+                xs="12"
+                sm="12"
+                lg="3"
                 v-for="(feature, index) in features"
                 :key="index"
               >
@@ -183,7 +187,7 @@
         ></v-card-title>
         <v-container fluid>
           <v-row>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-menu
                 v-model="menu"
                 :close-on-content-click="false"
@@ -198,10 +202,10 @@
                     <v-card-title>Primary Color</v-card-title>
 
                     <v-card-actions>
-                      <v-card-subtitle
+                      <v-card-text
                         >The primary color will be used for backgrounds of
                         section, header and footer colors, hero section colors,
-                        etc.</v-card-subtitle
+                        etc.</v-card-text
                       ></v-card-actions
                     >
                   </v-card>
@@ -220,7 +224,7 @@
 
               <!--  -->
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-menu
                 v-model="menu2"
                 :close-on-content-click="false"
@@ -234,9 +238,9 @@
                   >
                     <v-card-title>Secondary Color</v-card-title>
                     <v-card-actions>
-                      <v-card-subtitle
+                      <v-card-text
                         >The secondary color will be applied to buttons and
-                        cards</v-card-subtitle
+                        cards</v-card-text
                       ></v-card-actions
                     >
                   </v-card>
@@ -253,7 +257,7 @@
                 </v-card>
               </v-menu>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-menu
                 v-model="menu3"
                 :close-on-content-click="false"
@@ -267,10 +271,10 @@
                   >
                     <v-card-title>Background Color</v-card-title>
                     <v-card-actions>
-                      <v-card-subtitle
+                      <v-card-text
                         >The background color will be applied to the overall
                         background and be shown on sections where theres no
-                        color</v-card-subtitle
+                        color</v-card-text
                       ></v-card-actions
                     >
                   </v-card>
@@ -317,8 +321,9 @@
           ></v-text-field>
 
           <v-btn
-            variant="contained"
+            variant="tonal"
             block
+            rounded
             size="large"
             class="mt-10"
             @click="generateLandingPage"
@@ -327,31 +332,43 @@
           >
         </v-container>
         <v-dialog
-          max-width="50%"
+          max-width="95%"
+          width="auto"
+          max-height="50%"
           transition="dialog-bottom-transition"
           v-model="showGeneratedHtmlModal"
         >
-          <v-card class="rounded-lg" color="success">
+          <v-card class="rounded-lg" color="primary">
             <v-container fluid>
-              <v-alert v-if="generatedHtml" type="success" style="width: 100%">
-                <div slot="title">
-                  Your landing page has been generated. You can preview it, or
-                  download the HTML file.
-                </div>
-
-                <template v-slot:append>
-                  <v-btn color="primary" @click="previewDialog = true">
-                    <v-icon left>mdi-eye</v-icon>
-                    Preview
-                  </v-btn>
-
-                  <v-btn class="ml-5" @click="downloadHtml" color="warning">
-                    <v-icon left>mdi-download</v-icon>
-                    Download HTML
-                  </v-btn>
-                </template>
-              </v-alert></v-container
-            ></v-card
+              <v-card-text style="font-size: 16px">
+                Your landing page has been generated. You can preview it, or
+                download the HTML file.
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  rounded
+                  block
+                  variant="flat"
+                  color="#001b5b"
+                  @click="previewDialog = true"
+                >
+                  <v-icon left>mdi-eye</v-icon>
+                  Preview
+                </v-btn>
+              </v-card-actions>
+              <v-card-actions>
+                <v-btn
+                  rounded
+                  block
+                  variant="flat"
+                  @click="downloadHtml"
+                  color="secondary"
+                >
+                  <v-icon left>mdi-download</v-icon>
+                  Download
+                </v-btn></v-card-actions
+              >
+            </v-container></v-card
           >
         </v-dialog>
 
@@ -377,41 +394,43 @@
     <v-dialog max-width="600px" v-model="whatsNext">
       <!-- show a card letting the user know theyve downloaded an html file and can either upload it to somewhere to tiiny.host, or they can host it themselves. They can also edit the file as desired if needed -->
 
-      <v-card>
-        <v-toolbar color="primary"
+      <v-card class="rounded-lg">
+        <v-toolbar class="rounded-t-lg" color="primary"
           ><v-toolbar-title class="white--text"
             >What's next?
           </v-toolbar-title></v-toolbar
         >
-        <v-container>
+        <v-container fluid>
           <v-alert type="info" color="success">
             You've now downloaded a single HTML with Vue.js contained in the
             file and I'm sure youre wondering whats next? The good news is you
             have multiple options:</v-alert
           >
           <v-card-actions>
-            <ul>
-              <li>
-                If you are totally happy with it and ready to serve it as a
-                site, we recommend a service like
-                <a href="https://tiiny.host">tiiny.host</a> which allows you to
-                simply upload the downloaded file, choose a domain, and you will
-                have a live web page in seconds.
-              </li>
-              <li>
-                Alternatively, if you want have an existing deployment method
-                such as Github pages, cloudflare, etc, then you can continue to
-                upload it as normal using the defined process there.
-              </li>
-              <li>
-                Finally, if you want to make some more changes, the file has a
-                self-contained instance of Vue.js including Vuetify and Material
-                Design Icons, so you can open it in your favorite code editor,
-                make any desired changes, and then upload it using one of the
-                previously listed choices.
-              </li>
-            </ul></v-card-actions
-          >
+            <v-container>
+              <ul>
+                <li>
+                  If you are totally happy with it and ready to serve it as a
+                  site, we recommend a service like
+                  <a href="https://tiiny.host">tiiny.host</a> which allows you
+                  to simply upload the downloaded file, choose a domain, and you
+                  will have a live web page in seconds.
+                </li>
+                <li>
+                  Alternatively, if you want have an existing deployment method
+                  such as Github pages, cloudflare, etc, then you can continue
+                  to upload it as normal using the defined process there.
+                </li>
+                <li>
+                  Finally, if you want to make some more changes, the file has a
+                  self-contained instance of Vue.js including Vuetify and
+                  Material Design Icons, so you can open it in your favorite
+                  code editor, make any desired changes, and then upload it
+                  using one of the previously listed choices.
+                </li>
+              </ul>
+            </v-container>
+          </v-card-actions>
         </v-container>
       </v-card>
     </v-dialog>
@@ -435,10 +454,10 @@ export default {
       heroTitle: "",
       heroSubtitle: "",
       features: [],
-      newFeature: { text: "", icon: "", iconColor: "#000000" },
+      newFeature: { text: "", icon: "", iconColor: "#ffffff" },
       primaryColor: "#3490dc",
-      secondaryColor: "#f6993f",
-      backgroundColor: "#001b5b",
+      secondaryColor: "#02267a",
+      backgroundColor: "#ffffff",
       aboutText: "",
       contactEmail: "",
       contactPhone: "",
@@ -695,7 +714,7 @@ export default {
         this.newFeature = {
           text: "",
           icon: "mdi-lightbulb",
-          iconColor: "#000000",
+          iconColor: "#ffffff",
         };
       }
     },
@@ -795,7 +814,7 @@ export default {
           <v-main style="background:${this.backgroundColor}">
             <v-container fluid class="fill-height primary">
               <v-row align="center" justify="center">
-                <v-col cols="12" sm="8" md="6" class="text-center">
+                <v-col cols="12" sm="12" md="6" class="text-center">
                   <h1 class="text-h2 font-weight-bold white--text mb-4">${
                     this.heroTitle
                   }</h1>
@@ -902,6 +921,7 @@ export default {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      this.showGeneratedHtmlModal = false;
       this.whatsNext = true;
     },
   },
