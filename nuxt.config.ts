@@ -13,6 +13,7 @@ export default defineNuxtConfig({
               "custom-color-two": "#3B8070",
               primary: "#0085F3",
               secondary: "#FFED4A",
+              medium: "#fe344ff",
             },
           },
         },

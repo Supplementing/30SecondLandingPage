@@ -25,10 +25,10 @@
             <v-icon>mdi-file-plus-outline</v-icon> Generate a landing page in 30
             seconds!</v-card-text
           >
-          <v-card-subtitle class="ml-10 mt-5" style="font-size: 18px">
-            Simply enter in the info below to preview and then generate a single
-            HTML file to quickly create a business landing page!
-          </v-card-subtitle>
+          <v-card-text class="ml-10 mt-5" style="font-size: 18px; opacity: 0.5">
+            Simply enter some basic info below to preview and then generate a
+            single HTML file to quickly create a business landing page!
+          </v-card-text>
 
           <v-divider thickness="5" class="ma-10"></v-divider>
           <v-card-title>Company Information</v-card-title>
@@ -191,8 +191,10 @@
                         feature.icon
                       }}</v-icon>
                     </v-card-title>
-                    <v-card-subtitle> {{ feature.text }}</v-card-subtitle>
-                    <v-card-text>{{ newFeature.description }}</v-card-text>
+                    <v-card-subtitle style="font-size: 15px; font-weight: bold">
+                      {{ feature.text }}</v-card-subtitle
+                    >
+                    <v-card-text>{{ feature.description }}</v-card-text>
                     <v-card-actions>
                       <v-btn @click="removeFeature(index)" color="error" small
                         >Remove</v-btn
@@ -366,6 +368,7 @@
             ></v-text-field>
 
             <v-text-field
+              class="mt-2"
               v-model="ctaLink"
               label="Call to Action Link"
               placeholder="Enter call to action link to go to when the button is clicked"
