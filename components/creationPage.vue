@@ -71,10 +71,17 @@
         <v-card-title>Features</v-card-title>
         <v-container fluid>
           <v-row>
-            <v-col cols="12" xs="12" sm="12" md="12" lg="6">
+            <v-col cols="12" xs="12" sm="12" md="12" lg="4">
               <v-text-field
                 v-model="newFeature.text"
                 label="New Feature"
+                placeholder="Enter feature Name"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" xs="12" sm="12" md="12" lg="4">
+              <v-text-field
+                v-model="newFeature.description"
+                label="New Feature Description"
                 placeholder="Enter feature description"
               ></v-text-field>
             </v-col>
@@ -98,7 +105,7 @@
                 </template>
               </v-select>
             </v-col>
-            <v-col cols="12" lg="2" xs="12" sm="12" md="12">
+            <v-col cols="12" lg="1" xs="12" sm="12" md="12">
               <v-menu
                 v-model="featureMenu"
                 :close-on-content-click="false"
@@ -125,7 +132,7 @@
                 </v-card>
               </v-menu>
             </v-col>
-            <v-col cols="12" xs="12" sm="12" md="12" lg="1">
+            <v-col cols="12" xs="12" sm="12" md="12" lg="12">
               <v-btn
                 class="mt-1"
                 block
@@ -139,8 +146,10 @@
             </v-col>
           </v-row>
 
-          <div v-if="features.length > 0">
-            <v-card-subtitle>Items ({{ features.length }}):</v-card-subtitle>
+          <div class="mt-4" v-if="features.length > 0">
+            <v-card-subtitle style="font-size: 15px"
+              >Items ({{ features.length }}):</v-card-subtitle
+            >
             <v-row class="mt-4"
               ><v-col
                 cols="12"
@@ -158,6 +167,7 @@
                     }}</v-icon>
                   </v-card-title>
                   <v-card-subtitle> {{ feature.text }}</v-card-subtitle>
+                  <v-card-text>{{ newFeature.description }}</v-card-text>
                   <v-card-actions>
                     <v-btn @click="removeFeature(index)" color="error" small
                       >Remove</v-btn
@@ -868,6 +878,7 @@ export default {
                       <v-card-text class="text-center">
                         <v-icon x-large :color="'${feature.iconColor}'">${feature.icon}</v-icon>
                         <h3 style="color:white" class="text-h5 font-weight-bold mt-4">${feature.text}</h3>
+                        <span style="color:white"> ${feature.description}</span>
                       </v-card-text>
                     </v-card>
                   </v-col>
