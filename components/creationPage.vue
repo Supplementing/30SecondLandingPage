@@ -371,6 +371,24 @@
             hint="This can either be a URL to a website, or one of the following: #about, #features, #contact for sections on the page"
             persistent-hint
           ></v-text-field>
+        </v-container>
+        <v-card-title
+          class="mt-10"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+          >Search Engine Optimization Tags
+        </v-card-title>
+        <v-container fluid>
+          <v-text-field
+            v-model="seo"
+            label="Add SEO tags to be appended to the head tag"
+            placeholder="Enter call to action text"
+            hint="Add description paragraph, keywords, etc. These items will show in search engine results and help your site rank"
+            persistent-hint
+          ></v-text-field>
 
           <v-btn
             variant="tonal"
@@ -493,6 +511,7 @@
 export default {
   data() {
     return {
+      seo: "",
       featuresSectionName: "Features",
       editFeatures: false,
       showGeneratedHtmlModal: false,
@@ -783,6 +802,7 @@ export default {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta name="description" content="${this.seo}" />
           <title>${this.companyName} - ${this.heroTitle}</title>
           <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
           <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
