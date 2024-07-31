@@ -68,7 +68,31 @@
           ></v-textarea
         ></v-container>
 
-        <v-card-title>Features</v-card-title>
+        <v-card-title v-if="!editFeatures"
+          >{{ featuresSectionName }}
+          <v-icon @click="editFeatures = true" size="small"
+            >mdi-pencil-outline</v-icon
+          >
+        </v-card-title>
+        <v-text-field
+          style="width: 20%"
+          class="ml-5"
+          v-else
+          v-model="featuresSectionName"
+        >
+          <template v-slot:append-inner>
+            <v-btn
+              text
+              @click="editFeatures = false"
+              color="success"
+              variant="tonal"
+              >Save</v-btn
+            >
+          </template>
+          <template v-slot:prepend-inner>
+            <v-icon>mdi-pencil-outline</v-icon>
+          </template>
+        </v-text-field>
         <v-container fluid>
           <v-row>
             <v-col cols="12" xs="12" sm="12" md="12" lg="4">
@@ -469,6 +493,8 @@
 export default {
   data() {
     return {
+      featuresSectionName: "Features",
+      editFeatures: false,
       showGeneratedHtmlModal: false,
       base64File: null,
       companyLogoURL: null,
@@ -815,7 +841,9 @@ export default {
     
     <!-- Desktop menu -->
     <v-btn text href="#about" class="hidden-sm-and-down">About</v-btn>
-    <v-btn text href="#features" class="hidden-sm-and-down">Features</v-btn>
+    <v-btn text href="#features" class="hidden-sm-and-down">${
+      this.featuresSectionName
+    }</v-btn>
     <v-btn text href="#contact" class="hidden-sm-and-down">Contact</v-btn>
     
     <!-- Mobile menu button -->
@@ -830,7 +858,7 @@ export default {
           <v-list-item-title>About</v-list-item-title>
         </v-list-item>
         <v-list-item href="#features">
-          <v-list-item-title>Features</v-list-item-title>
+          <v-list-item-title>${this.featuresSectionName}</v-list-item-title>
         </v-list-item>
         <v-list-item href="#contact">
           <v-list-item-title>Contact</v-list-item-title>
@@ -866,7 +894,9 @@ export default {
             <v-container fluid id="features" class="py-12 primary">
               <v-row >
                 <v-col cols="12">
-                  <h2 class="text-h3 font-weight-bold mb-6 text-center white--text">Our Features</h2>
+                  <h2 class="text-h3 font-weight-bold mb-6 text-center white--text">Our ${
+                    this.featuresSectionName
+                  }</h2>
                 </v-col>
               </v-row>
               <v-row>
