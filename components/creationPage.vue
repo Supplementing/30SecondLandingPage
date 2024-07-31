@@ -111,7 +111,7 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" xs="12" sm="12" md="12" lg="3">
-                <v-select
+                <v-autocomplete
                   v-model="newFeature.icon"
                   :items="iconOptions"
                   item-title="text"
@@ -128,7 +128,7 @@
                       {{ item.text }}
                     </v-list-item>
                   </template>
-                </v-select>
+                </v-autocomplete>
               </v-col>
               <v-col cols="12" lg="1" xs="12" sm="12" md="12">
                 <v-menu
@@ -185,7 +185,11 @@
                   v-for="(feature, index) in features"
                   :key="index"
                 >
-                  <v-card>
+                  <v-card
+                    color="transparent"
+                    class="rounded-lg"
+                    style="border: 1px solid white"
+                  >
                     <v-card-title>
                       <v-icon :color="feature.iconColor">{{
                         feature.icon
@@ -196,7 +200,10 @@
                     >
                     <v-card-text>{{ feature.description }}</v-card-text>
                     <v-card-actions>
-                      <v-btn @click="removeFeature(index)" color="error" small
+                      <v-btn
+                        @click="removeFeature(index)"
+                        color="error lighten-4"
+                        small
                         >Remove</v-btn
                       >
                     </v-card-actions>
@@ -450,19 +457,26 @@
           <v-dialog v-model="previewDialog" fullscreen>
             <v-card>
               <v-card-title
+                class="background2"
                 style="display: flex; justify-content: space-between"
                 >Landing Page Preview
-                <v-btn color="error" text @click="previewDialog = false"
+                <v-btn
+                  variant="tonal"
+                  color="error"
+                  text
+                  @click="previewDialog = false"
                   >Close</v-btn
                 ></v-card-title
               >
-              <v-card-text>
+
+              <v-card-text style="background: red; padding: 0px">
                 <iframe
+                  style="width: 100%; height: 100%"
                   :srcdoc="generatedHtml"
                   title="Landing Page Preview"
                   class="w-100 h-100 preview-iframe"
-                ></iframe>
-              </v-card-text>
+                ></iframe
+              ></v-card-text>
             </v-card>
           </v-dialog>
         </v-col>
