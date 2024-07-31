@@ -1,7 +1,8 @@
 <template>
-  <v-container fluid class="background w-100 h-100">
-    <v-row>
-      <!-- <v-row>
+  <v-app>
+    <v-container fluid class="background w-100 h-100">
+      <v-row>
+        <!-- <v-row>
         <v-col cols="12" style="text-align: right">
           <div class="ma-2">
             <v-card-subtitle>Enjoying this tool?</v-card-subtitle>
@@ -19,26 +20,26 @@
           </div>
         </v-col>
       </v-row> -->
-      <v-col cols="12">
-        <v-card-text style="font-size: 25px; margin-top: 10px">
-          <v-icon>mdi-file-plus-outline</v-icon> Generate a landing page in 30
-          seconds!</v-card-text
-        >
-        <v-card-subtitle class="ml-10 mt-5" style="font-size: 18px">
-          Simply enter in the info below to preview and then generate a single
-          HTML file to quickly create a business landing page!
-        </v-card-subtitle>
+        <v-col cols="12">
+          <v-card-text style="font-size: 25px; margin-top: 10px">
+            <v-icon>mdi-file-plus-outline</v-icon> Generate a landing page in 30
+            seconds!</v-card-text
+          >
+          <v-card-subtitle class="ml-10 mt-5" style="font-size: 18px">
+            Simply enter in the info below to preview and then generate a single
+            HTML file to quickly create a business landing page!
+          </v-card-subtitle>
 
-        <v-divider thickness="5" class="ma-10"></v-divider>
-        <v-card-title>Company Information</v-card-title>
+          <v-divider thickness="5" class="ma-10"></v-divider>
+          <v-card-title>Company Information</v-card-title>
 
-        <v-container fluid>
-          <v-text-field
-            v-model="companyName"
-            label="Company Name"
-            placeholder="Enter company name"
-          ></v-text-field>
-          <!-- <v-file-input
+          <v-container fluid>
+            <v-text-field
+              v-model="companyName"
+              label="Company Name"
+              placeholder="Enter company name"
+            ></v-text-field>
+            <!-- <v-file-input
             @change="getLocalImageUrl"
             v-model="companyLogo"
             prepend-inner-icon="mdi-paperclip"
@@ -49,462 +50,475 @@
 
           <img :src="companyLogoURL" alt="" /> -->
 
-          <v-text-field
-            v-model="heroTitle"
-            label="Hero Title"
-            placeholder="Enter hero title"
-          ></v-text-field>
+            <v-text-field
+              v-model="heroTitle"
+              label="Hero Title"
+              placeholder="Enter hero title"
+            ></v-text-field>
 
-          <v-textarea
-            v-model="heroSubtitle"
-            label="Hero Subtitle"
-            placeholder="Enter hero subtitle"
-          ></v-textarea>
+            <v-textarea
+              v-model="heroSubtitle"
+              label="Hero Subtitle"
+              placeholder="Enter hero subtitle"
+            ></v-textarea>
 
-          <v-textarea
-            v-model="aboutText"
-            label="About Text"
-            placeholder="Enter about text"
-          ></v-textarea
-        ></v-container>
+            <v-textarea
+              v-model="aboutText"
+              label="About Text"
+              placeholder="Enter about text"
+            ></v-textarea
+          ></v-container>
 
-        <v-card-title v-if="!editFeatures"
-          >{{ featuresSectionName }}
-          <v-icon @click="editFeatures = true" size="small"
-            >mdi-pencil-outline</v-icon
-          >
-        </v-card-title>
-        <v-text-field
-          style="width: 20%"
-          class="ml-5"
-          v-else
-          v-model="featuresSectionName"
-        >
-          <template v-slot:append-inner>
-            <v-btn
-              text
-              @click="editFeatures = false"
-              color="success"
-              variant="tonal"
-              >Save</v-btn
+          <v-card-title v-if="!editFeatures"
+            >{{ featuresSectionName }}
+            <v-icon @click="editFeatures = true" size="small"
+              >mdi-pencil-outline</v-icon
             >
-          </template>
-          <template v-slot:prepend-inner>
-            <v-icon>mdi-pencil-outline</v-icon>
-          </template>
-        </v-text-field>
-        <v-container fluid>
-          <v-row>
-            <v-col cols="12" xs="12" sm="12" md="12" lg="4">
-              <v-text-field
-                v-model="newFeature.text"
-                label="New Feature"
-                placeholder="Enter feature Name"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" xs="12" sm="12" md="12" lg="4">
-              <v-text-field
-                v-model="newFeature.description"
-                label="New Feature Description"
-                placeholder="Enter feature description"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" xs="12" sm="12" md="12" lg="3">
-              <v-select
-                v-model="newFeature.icon"
-                :items="iconOptions"
-                item-title="text"
-                item-value="value"
-                label="Select Icon"
-              >
-                <template v-slot:selection="{ item }">
-                  <v-icon>{{ item.value }}</v-icon>
-                </template>
-                <template v-slot:item="{ props, item }">
-                  <v-list-item v-bind="props">
-                    <v-icon>{{ item.value }} </v-icon>
-
-                    {{ item.text }}
-                  </v-list-item>
-                </template>
-              </v-select>
-            </v-col>
-            <v-col cols="12" lg="1" xs="12" sm="12" md="12">
-              <v-menu
-                v-model="featureMenu"
-                :close-on-content-click="false"
-                location="start"
-              >
-                <template v-slot:activator="{ props }">
-                  <v-card
-                    style="border: 1px solid white"
-                    v-bind="props"
-                    :color="newFeature.iconColor"
-                  >
-                    <v-container> Icon Color</v-container>
-                  </v-card>
-                </template>
-
-                <v-card min-width="300">
-                  <v-color-picker
-                    v-model="newFeature.iconColor"
-                    dot-size="25"
-                    hide-mode-switch
-                    mode="hexa"
-                    swatches-max-height="200"
-                  ></v-color-picker>
-                </v-card>
-              </v-menu>
-            </v-col>
-            <v-col cols="12" xs="12" sm="12" md="12" lg="12">
+          </v-card-title>
+          <v-text-field
+            style="width: 20%"
+            class="ml-5"
+            v-else
+            v-model="featuresSectionName"
+          >
+            <template v-slot:append-inner>
               <v-btn
-                class="mt-1"
-                block
-                size="large"
-                rounded
-                variant="tonal"
-                @click="addFeature"
+                text
+                @click="editFeatures = false"
                 color="success"
-                >Add</v-btn
+                variant="tonal"
+                >Save</v-btn
               >
-            </v-col>
-          </v-row>
+            </template>
+            <template v-slot:prepend-inner>
+              <v-icon>mdi-pencil-outline</v-icon>
+            </template>
+          </v-text-field>
+          <v-container fluid>
+            <v-row>
+              <v-col cols="12" xs="12" sm="12" md="12" lg="4">
+                <v-text-field
+                  v-model="newFeature.text"
+                  label="New Feature"
+                  placeholder="Enter feature Name"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" xs="12" sm="12" md="12" lg="4">
+                <v-text-field
+                  v-model="newFeature.description"
+                  label="New Feature Description"
+                  placeholder="Enter feature description"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" xs="12" sm="12" md="12" lg="3">
+                <v-select
+                  v-model="newFeature.icon"
+                  :items="iconOptions"
+                  item-title="text"
+                  item-value="value"
+                  label="Select Icon"
+                >
+                  <template v-slot:selection="{ item }">
+                    <v-icon>{{ item.value }}</v-icon>
+                  </template>
+                  <template v-slot:item="{ props, item }">
+                    <v-list-item v-bind="props">
+                      <v-icon>{{ item.value }} </v-icon>
 
-          <div class="mt-4" v-if="features.length > 0">
-            <v-card-subtitle style="font-size: 15px"
-              >Items ({{ features.length }}):</v-card-subtitle
-            >
-            <v-row class="mt-4"
-              ><v-col
-                cols="12"
-                md="3"
-                xs="12"
-                sm="12"
-                lg="3"
-                v-for="(feature, index) in features"
-                :key="index"
-              >
-                <v-card>
-                  <v-card-title>
-                    <v-icon :color="feature.iconColor">{{
-                      feature.icon
-                    }}</v-icon>
-                  </v-card-title>
-                  <v-card-subtitle> {{ feature.text }}</v-card-subtitle>
-                  <v-card-text>{{ newFeature.description }}</v-card-text>
-                  <v-card-actions>
-                    <v-btn @click="removeFeature(index)" color="error" small
-                      >Remove</v-btn
+                      {{ item.text }}
+                    </v-list-item>
+                  </template>
+                </v-select>
+              </v-col>
+              <v-col cols="12" lg="1" xs="12" sm="12" md="12">
+                <v-menu
+                  v-model="featureMenu"
+                  :close-on-content-click="false"
+                  location="start"
+                >
+                  <template v-slot:activator="{ props }">
+                    <v-card
+                      style="border: 1px solid white"
+                      v-bind="props"
+                      :color="newFeature.iconColor"
                     >
-                  </v-card-actions>
-                </v-card>
-              </v-col></v-row
-            >
-          </div></v-container
-        >
+                      <v-container> Icon Color</v-container>
+                    </v-card>
+                  </template>
 
-        <v-card-title>Company Contact Information</v-card-title>
-        <v-container fluid>
-          <v-text-field
-            v-model="contactEmail"
-            label="Contact Email"
-            placeholder="Enter contact email"
-          ></v-text-field>
-
-          <v-text-field
-            v-model="contactPhone"
-            label="Contact Phone"
-            placeholder="Enter contact phone"
-          ></v-text-field>
-          <v-text-field
-            v-model="contactLocation"
-            label="Location"
-            placeholder="Enter Address or location"
-          ></v-text-field>
-        </v-container>
-
-        <v-card-title
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          "
-          >Theming
-          <v-switch
-            style="color: white"
-            color="success"
-            v-model="isDarkTheme"
-            label="Dark Theme"
-          ></v-switch
-        ></v-card-title>
-        <v-container fluid>
-          <v-row>
-            <v-col cols="12" md="6">
-              <v-menu
-                v-model="menu"
-                :close-on-content-click="false"
-                location="end"
-              >
-                <template v-slot:activator="{ props }">
-                  <v-card
-                    style="border: 1px solid white"
-                    :color="primaryColor"
-                    v-bind="props"
-                  >
-                    <v-card-title>Primary Color</v-card-title>
-
-                    <v-card-actions>
-                      <v-card-text
-                        >The primary color will be used for backgrounds of
-                        section, header and footer colors, hero section colors,
-                        etc.</v-card-text
-                      ></v-card-actions
-                    >
+                  <v-card min-width="300">
+                    <v-color-picker
+                      v-model="newFeature.iconColor"
+                      dot-size="25"
+                      hide-mode-switch
+                      mode="hexa"
+                      swatches-max-height="200"
+                    ></v-color-picker>
                   </v-card>
-                </template>
+                </v-menu>
+              </v-col>
+              <v-col cols="12" xs="12" sm="12" md="12" lg="12">
+                <v-btn
+                  class="mt-1"
+                  block
+                  size="large"
+                  rounded
+                  variant="tonal"
+                  @click="addFeature"
+                  color="success"
+                  >Add</v-btn
+                >
+              </v-col>
+            </v-row>
 
-                <v-card min-width="300">
-                  <v-color-picker
-                    v-model="primaryColor"
-                    dot-size="25"
-                    hide-mode-switch
-                    mode="hexa"
-                    swatches-max-height="200"
-                  ></v-color-picker>
-                </v-card>
-              </v-menu>
-
-              <!--  -->
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-menu
-                v-model="menu2"
-                :close-on-content-click="false"
-                location="start"
+            <div class="mt-4" v-if="features.length > 0">
+              <v-card-subtitle style="font-size: 15px"
+                >Items ({{ features.length }}):</v-card-subtitle
               >
-                <template v-slot:activator="{ props }">
-                  <v-card
-                    style="border: 1px solid white"
-                    :color="secondaryColor"
-                    v-bind="props"
-                  >
-                    <v-card-title>Secondary Color</v-card-title>
+              <v-row class="mt-4"
+                ><v-col
+                  cols="12"
+                  md="3"
+                  xs="12"
+                  sm="12"
+                  lg="3"
+                  v-for="(feature, index) in features"
+                  :key="index"
+                >
+                  <v-card>
+                    <v-card-title>
+                      <v-icon :color="feature.iconColor">{{
+                        feature.icon
+                      }}</v-icon>
+                    </v-card-title>
+                    <v-card-subtitle> {{ feature.text }}</v-card-subtitle>
+                    <v-card-text>{{ newFeature.description }}</v-card-text>
                     <v-card-actions>
-                      <v-card-text
-                        >The secondary color will be applied to buttons and
-                        cards</v-card-text
-                      ></v-card-actions
-                    >
+                      <v-btn @click="removeFeature(index)" color="error" small
+                        >Remove</v-btn
+                      >
+                    </v-card-actions>
                   </v-card>
-                </template>
-
-                <v-card min-width="300">
-                  <v-color-picker
-                    v-model="secondaryColor"
-                    dot-size="25"
-                    hide-mode-switch
-                    mode="hexa"
-                    swatches-max-height="200"
-                  ></v-color-picker>
-                </v-card>
-              </v-menu>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-menu
-                v-model="menu3"
-                :close-on-content-click="false"
-                location="end"
+                </v-col></v-row
               >
-                <template v-slot:activator="{ props }">
-                  <v-card
-                    style="border: 1px solid white"
-                    :color="backgroundColor"
-                    v-bind="props"
-                  >
-                    <v-card-title>Background Color</v-card-title>
-                    <v-card-actions>
-                      <v-card-text
-                        >The background color will be applied to the overall
-                        background and be shown on sections where theres no
-                        color</v-card-text
-                      ></v-card-actions
+            </div></v-container
+          >
+
+          <v-card-title>Company Contact Information</v-card-title>
+          <v-container fluid>
+            <v-text-field
+              v-model="contactEmail"
+              label="Contact Email"
+              placeholder="Enter contact email"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="contactPhone"
+              label="Contact Phone"
+              placeholder="Enter contact phone"
+            ></v-text-field>
+            <v-text-field
+              v-model="contactLocation"
+              label="Location"
+              placeholder="Enter Address or location"
+            ></v-text-field>
+          </v-container>
+
+          <v-card-title
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+            >Theming
+            <v-switch
+              style="color: white"
+              color="success"
+              v-model="isDarkTheme"
+              label="Dark Theme"
+            ></v-switch
+          ></v-card-title>
+          <v-container fluid>
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-menu
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  location="end"
+                >
+                  <template v-slot:activator="{ props }">
+                    <v-card
+                      style="border: 1px solid white"
+                      :color="primaryColor"
+                      v-bind="props"
                     >
+                      <v-card-title>Primary Color</v-card-title>
+
+                      <v-card-actions>
+                        <v-card-text
+                          >The primary color will be used for backgrounds of
+                          section, header and footer colors, hero section
+                          colors, etc.</v-card-text
+                        ></v-card-actions
+                      >
+                    </v-card>
+                  </template>
+
+                  <v-card min-width="300">
+                    <v-color-picker
+                      v-model="primaryColor"
+                      dot-size="25"
+                      hide-mode-switch
+                      mode="hexa"
+                      swatches-max-height="200"
+                    ></v-color-picker>
                   </v-card>
-                </template>
+                </v-menu>
 
-                <v-card min-width="300">
-                  <v-color-picker
-                    v-model="backgroundColor"
-                    dot-size="25"
-                    hide-mode-switch
-                    mode="hexa"
-                    swatches-max-height="200"
-                  ></v-color-picker>
-                </v-card>
-              </v-menu>
-            </v-col>
-          </v-row>
-        </v-container>
+                <!--  -->
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-menu
+                  v-model="menu2"
+                  :close-on-content-click="false"
+                  location="start"
+                >
+                  <template v-slot:activator="{ props }">
+                    <v-card
+                      style="border: 1px solid white"
+                      :color="secondaryColor"
+                      v-bind="props"
+                    >
+                      <v-card-title>Secondary Color</v-card-title>
+                      <v-card-actions>
+                        <v-card-text
+                          >The secondary color will be applied to buttons and
+                          cards</v-card-text
+                        ></v-card-actions
+                      >
+                    </v-card>
+                  </template>
 
-        <v-card-title
-          class="mt-10"
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          "
-          >Actions Customization
-        </v-card-title>
-        <v-container fluid>
-          <v-text-field
-            v-model="ctaText"
-            label="Call to Action Text"
-            placeholder="Enter call to action text"
-            hint="This is the text that will be displayed on the call to action button"
-            persistent-hint
-          ></v-text-field>
+                  <v-card min-width="300">
+                    <v-color-picker
+                      v-model="secondaryColor"
+                      dot-size="25"
+                      hide-mode-switch
+                      mode="hexa"
+                      swatches-max-height="200"
+                    ></v-color-picker>
+                  </v-card>
+                </v-menu>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-menu
+                  v-model="menu3"
+                  :close-on-content-click="false"
+                  location="end"
+                >
+                  <template v-slot:activator="{ props }">
+                    <v-card
+                      style="border: 1px solid white"
+                      :color="backgroundColor"
+                      v-bind="props"
+                    >
+                      <v-card-title>Background Color</v-card-title>
+                      <v-card-actions>
+                        <v-card-text
+                          >The background color will be applied to the overall
+                          background and be shown on sections where theres no
+                          color</v-card-text
+                        ></v-card-actions
+                      >
+                    </v-card>
+                  </template>
 
-          <v-text-field
-            v-model="ctaLink"
-            label="Call to Action Link"
-            placeholder="Enter call to action link to go to when the button is clicked"
-            hint="This can either be a URL to a website, or one of the following: #about, #features, #contact for sections on the page"
-            persistent-hint
-          ></v-text-field>
-        </v-container>
-        <v-card-title
-          class="mt-10"
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          "
-          >Search Engine Optimization Tags
-        </v-card-title>
-        <v-container fluid>
-          <v-text-field
-            v-model="seo"
-            label="Add SEO tags to be appended to the head tag"
-            placeholder="Enter call to action text"
-            hint="Add description paragraph, keywords, etc. These items will show in search engine results and help your site rank"
-            persistent-hint
-          ></v-text-field>
+                  <v-card min-width="300">
+                    <v-color-picker
+                      v-model="backgroundColor"
+                      dot-size="25"
+                      hide-mode-switch
+                      mode="hexa"
+                      swatches-max-height="200"
+                    ></v-color-picker>
+                  </v-card>
+                </v-menu>
+              </v-col>
+            </v-row>
+          </v-container>
 
-          <v-btn
-            variant="tonal"
-            block
-            rounded
-            size="large"
+          <v-card-title
             class="mt-10"
-            @click="generateLandingPage"
-            color="success"
-            >Generate Landing Page <v-icon class="ml-3">mdi-sync</v-icon></v-btn
-          >
-        </v-container>
-        <v-dialog
-          max-width="95%"
-          width="auto"
-          max-height="50%"
-          transition="dialog-bottom-transition"
-          v-model="showGeneratedHtmlModal"
-        >
-          <v-card class="rounded-lg" color="primary">
-            <v-container fluid>
-              <v-card-text style="font-size: 16px">
-                Your landing page has been generated. You can preview it, or
-                download the HTML file.
-              </v-card-text>
-              <v-card-actions>
-                <v-btn
-                  rounded
-                  block
-                  variant="flat"
-                  color="#001b5b"
-                  @click="previewDialog = true"
-                >
-                  <v-icon left>mdi-eye</v-icon>
-                  Preview
-                </v-btn>
-              </v-card-actions>
-              <v-card-actions>
-                <v-btn
-                  rounded
-                  block
-                  variant="flat"
-                  @click="downloadHtml"
-                  color="secondary"
-                >
-                  <v-icon left>mdi-download</v-icon>
-                  Download
-                </v-btn></v-card-actions
-              >
-            </v-container></v-card
-          >
-        </v-dialog>
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+            >Actions Customization
+          </v-card-title>
+          <v-container fluid>
+            <v-text-field
+              v-model="ctaText"
+              label="Call to Action Text"
+              placeholder="Enter call to action text"
+              hint="This is the text that will be displayed on the call to action button"
+              persistent-hint
+            ></v-text-field>
 
-        <v-dialog v-model="previewDialog" fullscreen>
-          <v-card>
-            <v-card-title style="display: flex; justify-content: space-between"
-              >Landing Page Preview
-              <v-btn color="error" text @click="previewDialog = false"
-                >Close</v-btn
-              ></v-card-title
+            <v-text-field
+              v-model="ctaLink"
+              label="Call to Action Link"
+              placeholder="Enter call to action link to go to when the button is clicked"
+              hint="This can either be a URL to a website, or one of the following: #about, #features, #contact for sections on the page"
+              persistent-hint
+            ></v-text-field>
+          </v-container>
+          <v-card-title
+            class="mt-10"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+            >Search Engine Optimization Tags
+          </v-card-title>
+          <v-container fluid>
+            <v-text-field
+              v-model="seo"
+              label="Add SEO tags to be appended to the head tag"
+              placeholder="Enter call to action text"
+              hint="Add description paragraph, keywords, etc. These items will show in search engine results and help your site rank"
+              persistent-hint
+            ></v-text-field>
+
+            <v-btn
+              variant="tonal"
+              block
+              rounded
+              size="large"
+              class="mt-10"
+              @click="generateLandingPage"
+              color="success"
+              >Generate Landing Page
+              <v-icon class="ml-3">mdi-sync</v-icon></v-btn
             >
-            <v-card-text>
-              <iframe
-                :srcdoc="generatedHtml"
-                title="Landing Page Preview"
-                class="w-100 h-100 preview-iframe"
-              ></iframe>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
-    <v-dialog max-width="600px" v-model="whatsNext">
-      <!-- show a card letting the user know theyve downloaded an html file and can either upload it to somewhere to tiiny.host, or they can host it themselves. They can also edit the file as desired if needed -->
-
-      <v-card class="rounded-lg">
-        <v-toolbar class="rounded-t-lg" color="primary"
-          ><v-toolbar-title class="white--text"
-            >What's next?
-          </v-toolbar-title></v-toolbar
-        >
-        <v-container fluid>
-          <v-alert type="info" color="success">
-            You've now downloaded a single HTML with Vue.js contained in the
-            file and I'm sure youre wondering whats next? The good news is you
-            have multiple options:</v-alert
+          </v-container>
+          <v-dialog
+            max-width="95%"
+            width="auto"
+            max-height="50%"
+            transition="dialog-bottom-transition"
+            v-model="showGeneratedHtmlModal"
           >
-          <v-card-actions>
-            <v-container>
-              <ul>
-                <li>
-                  If you are totally happy with it and ready to serve it as a
-                  site, we recommend a service like
-                  <a href="https://tiiny.host">tiiny.host</a> which allows you
-                  to simply upload the downloaded file, choose a domain, and you
-                  will have a live web page in seconds.
-                </li>
-                <li>
-                  Alternatively, if you want have an existing deployment method
-                  such as Github pages, cloudflare, etc, then you can continue
-                  to upload it as normal using the defined process there.
-                </li>
-                <li>
-                  Finally, if you want to make some more changes, the file has a
-                  self-contained instance of Vue.js including Vuetify and
-                  Material Design Icons, so you can open it in your favorite
-                  code editor, make any desired changes, and then upload it
-                  using one of the previously listed choices.
-                </li>
-              </ul>
-            </v-container>
-          </v-card-actions>
-        </v-container>
-      </v-card>
-    </v-dialog>
-  </v-container>
+            <v-card class="rounded-lg" color="primary">
+              <v-container fluid>
+                <v-card-text style="font-size: 16px">
+                  Your landing page has been generated. You can preview it, or
+                  download the HTML file.
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn
+                    rounded
+                    block
+                    variant="flat"
+                    color="#001b5b"
+                    @click="previewDialog = true"
+                  >
+                    <v-icon left>mdi-eye</v-icon>
+                    Preview
+                  </v-btn>
+                </v-card-actions>
+                <v-card-actions>
+                  <v-btn
+                    rounded
+                    block
+                    variant="flat"
+                    @click="downloadHtml"
+                    color="secondary"
+                  >
+                    <v-icon left>mdi-download</v-icon>
+                    Download
+                  </v-btn></v-card-actions
+                >
+              </v-container></v-card
+            >
+          </v-dialog>
+
+          <v-dialog v-model="previewDialog" fullscreen>
+            <v-card>
+              <v-card-title
+                style="display: flex; justify-content: space-between"
+                >Landing Page Preview
+                <v-btn color="error" text @click="previewDialog = false"
+                  >Close</v-btn
+                ></v-card-title
+              >
+              <v-card-text>
+                <iframe
+                  :srcdoc="generatedHtml"
+                  title="Landing Page Preview"
+                  class="w-100 h-100 preview-iframe"
+                ></iframe>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </v-col>
+      </v-row>
+      <v-dialog max-width="600px" v-model="whatsNext">
+        <!-- show a card letting the user know theyve downloaded an html file and can either upload it to somewhere to tiiny.host, or they can host it themselves. They can also edit the file as desired if needed -->
+
+        <v-card class="rounded-lg">
+          <v-toolbar class="rounded-t-lg" color="primary"
+            ><v-toolbar-title class="white--text"
+              >What's next?
+            </v-toolbar-title></v-toolbar
+          >
+          <v-container fluid>
+            <v-alert type="info" color="success">
+              You've now downloaded a single HTML with Vue.js contained in the
+              file and I'm sure youre wondering whats next? The good news is you
+              have multiple options:</v-alert
+            >
+            <v-card-actions>
+              <v-container>
+                <ul>
+                  <li>
+                    If you are totally happy with it and ready to serve it as a
+                    site, we recommend a service like
+                    <a href="https://tiiny.host">tiiny.host</a> which allows you
+                    to simply upload the downloaded file, choose a domain, and
+                    you will have a live web page in seconds.
+                  </li>
+                  <li>
+                    Alternatively, if you want have an existing deployment
+                    method such as Github pages, cloudflare, etc, then you can
+                    continue to upload it as normal using the defined process
+                    there.
+                  </li>
+                  <li>
+                    Finally, if you want to make some more changes, the file has
+                    a self-contained instance of Vue.js including Vuetify and
+                    Material Design Icons, so you can open it in your favorite
+                    code editor, make any desired changes, and then upload it
+                    using one of the previously listed choices.
+                  </li>
+                </ul>
+              </v-container>
+            </v-card-actions>
+          </v-container>
+        </v-card>
+      </v-dialog>
+    </v-container>
+    <v-footer class="background2">
+      <v-col class="text-center" cols="12">
+        &copy {{ new Date().getFullYear() }} —
+        <strong
+          >Made with <v-icon color="error">mdi-heart</v-icon> by
+          Supplementing</strong
+        >
+      </v-col>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
@@ -1015,6 +1029,10 @@ export default {
 }
 .background {
   background-color: #001b5b;
+  color: white;
+}
+.background2 {
+  background-color: #001340;
   color: white;
 }
 v-btn {
