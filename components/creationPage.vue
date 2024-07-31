@@ -113,7 +113,9 @@
               <v-col cols="12" xs="12" sm="12" md="12" lg="3">
                 <v-autocomplete
                   v-model="newFeature.icon"
-                  :items="iconOptions"
+                  :items="
+                    iconOptions.sort((a, b) => (a.text > b.text ? 1 : -1))
+                  "
                   item-title="text"
                   item-value="value"
                   label="Select Icon"
@@ -123,9 +125,15 @@
                   </template>
                   <template v-slot:item="{ props, item }">
                     <v-list-item v-bind="props">
-                      <v-icon>{{ item.value }} </v-icon>
-
-                      {{ item.text }}
+                      <div
+                        style="display: flex; justify-content: space-between"
+                      >
+                        <span>
+                          <v-icon>{{ item.value }} </v-icon
+                          >{{ item.text }}</span
+                        >
+                      </div>
+                      <v-divider class="mt-3"></v-divider>
                     </v-list-item>
                   </template>
                 </v-autocomplete>
