@@ -2,6 +2,7 @@
   <v-app>
     <v-container fluid class="background w-100 h-100">
       <v-row>
+        <!-- maybe move this tot he footer at some point -->
         <!-- <v-row>
         <v-col cols="12" style="text-align: right">
           <div class="ma-2">
