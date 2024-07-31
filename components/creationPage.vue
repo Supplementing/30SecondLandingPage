@@ -240,6 +240,26 @@
             ></v-text-field>
           </v-container>
 
+          <v-card-title>Company Socials</v-card-title>
+          <v-container fluid>
+            <v-text-field
+              v-model="facebookURL"
+              label="Facebook"
+              placeholder="Enter Facebook url"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="instagramURL"
+              label="Instagram"
+              placeholder="Enter Instagram url"
+            ></v-text-field>
+            <v-text-field
+              v-model="linkedInURL"
+              label="LinkedIn"
+              placeholder="Enter linkedin url"
+            ></v-text-field>
+          </v-container>
+
           <v-card-title
             style="
               display: flex;
@@ -476,7 +496,7 @@
                 ></v-card-title
               >
 
-              <v-card-text style="background: red; padding: 0px">
+              <v-card-text style="padding: 0px">
                 <iframe
                   style="width: 100%; height: 100%"
                   :srcdoc="generatedHtml"
@@ -549,6 +569,9 @@
 export default {
   data() {
     return {
+      facebookURL: "",
+      instagramURL: "",
+      linkedInURL: "",
       seo: "",
       featuresSectionName: "Features",
       editFeatures: false,
@@ -880,6 +903,11 @@ export default {
                 drawer: false,
            
               },
+              methods: {
+              openLink(link){
+                window.open(link, '_blank');
+              }
+              }
             
             });
           <\/script>
@@ -1019,10 +1047,22 @@ export default {
           </v-main>
 
           <v-footer color="primary" dark app>
-            <v-col class="text-center" cols="12">
+            <v-col class="text-center" style="display:flex;align-items:center;justify-content:center" cols="12">
               &copy; {{ new Date().getFullYear() }} ${
                 this.companyName
               }. All rights reserved.
+
+              <span>
+<v-icon @click="openLink('${this.linkedInURL}')" v-if="${
+        this.linkedInURL != ""
+      }">mdi-linkedin</v-icon>
+<v-icon @click="openLink('${this.facebookURL}')" v-if="${
+        this.facebookURL != ""
+      }">mdi-facebook</v-icon>
+<v-icon @click="openLink('${this.instagramURL}')" v-if="${
+        this.instagramURL != ""
+      }">mdi-instagram</v-icon>
+              </span>
             </v-col>
           </v-footer>
         </v-app>
