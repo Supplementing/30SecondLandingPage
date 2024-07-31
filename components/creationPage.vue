@@ -221,6 +221,7 @@
           >
 
           <v-card-title>Company Contact Information</v-card-title>
+
           <v-container fluid>
             <v-text-field
               v-model="contactEmail"
@@ -241,19 +242,25 @@
           </v-container>
 
           <v-card-title>Company Socials</v-card-title>
+          <v-card-subtitle
+            >(Optional) Only added items will be displayed</v-card-subtitle
+          >
           <v-container fluid>
             <v-text-field
+              prepend-inner-icon="mdi-facebook"
               v-model="facebookURL"
               label="Facebook"
               placeholder="Enter Facebook url"
             ></v-text-field>
 
             <v-text-field
+              prepend-inner-icon="mdi-instagram"
               v-model="instagramURL"
               label="Instagram"
               placeholder="Enter Instagram url"
             ></v-text-field>
             <v-text-field
+              prepend-inner-icon="mdi-linkedin"
               v-model="linkedInURL"
               label="LinkedIn"
               placeholder="Enter linkedin url"
