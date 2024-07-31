@@ -114,9 +114,7 @@
               <v-col cols="12" xs="12" sm="12" md="12" lg="3">
                 <v-autocomplete
                   v-model="newFeature.icon"
-                  :items="
-                    iconOptions.sort((a, b) => (a.text > b.text ? 1 : -1))
-                  "
+                  :items="iconOptions"
                   item-title="text"
                   item-value="value"
                   label="Select Icon"
@@ -794,7 +792,7 @@ export default {
         { text: "Aid", value: "mdi-medical-bag" },
         { text: "Aim", value: "mdi-bullseye-arrow" },
         { text: "Air Balloon", value: "mdi-air-balloon" },
-      ],
+      ].sort((a, b) => a.text.localeCompare(b.text)),
     };
   },
   methods: {
